@@ -1,0 +1,41 @@
+
+<div class="flex items-center justify-between w-full">
+  @for (step of steps; track step.id; let last = $last) {
+    <div class="flex items-center" [class.flex-1]="!last">
+      <div class="flex flex-col items-center gap-1">
+        <div
+          class="flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold shrink-0"
+          [class.bg-green-500]="step.id <= highestCompletedStep()"
+          [class.text-white]="step.id <= highestCompletedStep()"
+          [class.border-2]="step.id === currentStep() && step.id > highestCompletedStep()"
+          [class.border-blue-500]="step.id === currentStep() && step.id > highestCompletedStep()"
+          [class.text-blue-500]="step.id === currentStep() && step.id > highestCompletedStep()"
+          [class.bg-gray-100]="step.id > highestCompletedStep() && step.id !== currentStep()"
+          [class.text-gray-400]="step.id > highestCompletedStep() && step.id !== currentStep()"
+        >
+          @if (step.id <= highestCompletedStep()) {
+            <span>&#10003;</span>
+          } @else {
+            <span>{{ step.id + 1 }}</span>
+          }
+        </div>
+        <span
+          class="hidden sm:block text-xs"
+          [class.font-bold]="step.id === currentStep()"
+          [class.text-blue-500]="step.id === currentStep()"
+          [class.text-green-600]="step.id <= highestCompletedStep() && step.id !== currentStep()"
+          [class.text-gray-400]="step.id > highestCompletedStep() && step.id !== currentStep()"
+        >
+          {{ step.label }}
+        </span>
+      </div>
+      @if (!last) {
+        <div
+          class="flex-1 h-0.5 mx-2"
+          [class.bg-green-500]="step.id < highestCompletedStep()"
+          [class.bg-gray-200]="step.id >= highestCompletedStep()"
+        ></div>
+      }
+    </div>
+  }
+</div>
